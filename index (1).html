@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zelo & Excelência — Ministério de Louvor</title>
+<style>
+:root{
+ --blue:#1f5f8b;--blue2:#eaf4fb;--text:#24313b;--muted:#687782;
+ --border:#d9e2e8;--ok:#2e7d32;--danger:#b42318;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f7f9;color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.container{max-width:820px;margin:30px auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 4px 18px rgba(30,60,80,.08);overflow:hidden}
+.header{background:linear-gradient(135deg,#164b70,#2c78a8);color:white;padding:30px}
+.header h1{margin:0 0 7px;font-size:27px}.header p{margin:0;opacity:.95}
+.content{padding:28px}
+.note{background:var(--blue2);border-left:4px solid var(--blue);padding:13px 15px;border-radius:8px;margin:16px 0 24px}
+.section{border-top:1px solid var(--border);padding-top:25px;margin-top:25px}
+h2{color:var(--blue);font-size:20px;margin:0 0 6px}
+.desc{color:var(--muted);margin-top:0}
+.question{margin:0 0 21px}
+.title{display:block;font-weight:700;margin-bottom:8px}
+input[type=text],input[type=date],input[type=time],textarea,select{
+ width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;
+ font:inherit;background:#fff
+}
+textarea{min-height:100px;resize:vertical}
+.option{display:block;border:1px solid var(--border);padding:11px 13px;border-radius:9px;margin:8px 0;cursor:pointer}
+.option:hover{background:var(--blue2)}
+.option input{margin-right:8px}
+.hidden{display:none}
+.actions{display:flex;justify-content:flex-end;gap:10px;border-top:1px solid var(--border);padding-top:22px;margin-top:25px}
+button{border:0;border-radius:9px;padding:12px 20px;font-weight:700;cursor:pointer;font-size:15px}
+.primary{background:var(--blue);color:white}.secondary{background:#eef2f5;color:var(--text)}
+.status{display:none;padding:13px 15px;border-radius:9px;margin-top:18px}
+.success{display:block;background:#eaf6eb;color:var(--ok)}
+.error{display:block;background:#fff0ef;color:var(--danger)}
+.loading{opacity:.6;pointer-events:none}
+.footer{text-align:center;color:var(--muted);font-size:13px;padding:18px}
+@media(max-width:600px){.container{margin:10px auto}.header{padding:23px 20px}.header h1{font-size:22px}.content{padding:20px}}
+</style>
+</head>
+<body>
+
+<div class="container">
+<div class="card">
+<div class="header">
+  <h1>🎵 Zelo &amp; Excelência</h1>
+  <p>Checklist do Ministério de Louvor</p>
+</div>
+
+<div class="content">
+<p>
+Este checklist tem como objetivo manter a organização, a limpeza e o cuidado
+com o altar da igreja e o estúdio do ministério de louvor após cultos e ensaios.
+</p>
+
+<div class="note">
+<strong>“Tudo, porém, seja feito com decência e ordem.”</strong><br>
+1 Coríntios 14:40
+</div>
+
+<form id="form">
+
+<div class="question">
+<label class="title">Nome do responsável *</label>
+<input type="text" id="responsavel" required placeholder="Nome e sobrenome">
+</div>
+
+<div class="question">
+<label class="title">Data *</label>
+<input type="date" id="data" required>
+</div>
+
+<div class="question">
+<label class="title">Qual atividade está sendo encerrada? *</label>
+<label class="option"><input type="radio" name="atividade" value="Pós-Culto" required> 🙏 Pós-Culto</label>
+<label class="option"><input type="radio" name="atividade" value="Pós-Ensaio"> 🎶 Pós-Ensaio</label>
+</div>
+
+<div class="question">
+<label class="title">Horário aproximado de encerramento</label>
+<input type="time" id="horario">
+</div>
+
+<div id="checkSection" class="hidden">
+<div class="section">
+<h2 id="sectionAltar">🙏 Altar</h2>
+<p class="desc">Confira cada item antes de encerrar a atividade.</p>
+<div id="altarQuestions"></div>
+</div>
+
+<div class="section">
+<h2 id="sectionEstudio">🎧 Estúdio</h2>
+<p class="desc">Confira equipamentos, instrumentos e organização do ambiente.</p>
+<div id="estudioQuestions"></div>
+</div>
+
+<div class="section">
+<h2>🔧 Ocorrências e Manutenção</h2>
+<p class="desc">Registre qualquer problema que precise de atenção.</p>
+
+<div class="question">
+<label class="title">Foi identificada alguma irregularidade ou necessidade de manutenção? *</label>
+<label class="option"><input type="radio" name="ocorrencia" value="Não" required> ❌ Não</label>
+<label class="option"><input type="radio" name="ocorrencia" value="Sim"> ⚠️ Sim</label>
+</div>
+
+<div id="detalhes" class="hidden">
+<div class="question">
+<label class="title">Qual foi a ocorrência?</label>
+<textarea id="descricao" placeholder="Descreva o que aconteceu..."></textarea>
+</div>
+<div class="question">
+<label class="title">Qual equipamento/material está envolvido?</label>
+<input type="text" id="equipamento" placeholder="Ex.: microfone, cabo, mesa de som...">
+</div>
+<div class="question">
+<label class="title">É necessário comunicar alguém?</label>
+<select id="comunicar">
+<option value="">Selecione</option>
+<option>Não</option>
+<option>Sim — responsável pelo louvor</option>
+<option>Sim — liderança</option>
+<option>Sim — equipe responsável pelos equipamentos</option>
+</select>
+</div>
+</div>
+
+</div>
+
+<div class="section">
+<h2>✅ Conferência Final</h2>
+
+<div class="question">
+<label class="title">Após realizar o checklist, como ficou o ambiente? *</label>
+<label class="option"><input type="radio" name="situacao" value="Tudo organizado e pronto para a próxima atividade" required> 🟢 Tudo organizado e pronto para a próxima atividade</label>
+<label class="option"><input type="radio" name="situacao" value="Organizado, mas ficou alguma pendência"> 🟡 Organizado, mas ficou alguma pendência</label>
+<label class="option"><input type="radio" name="situacao" value="Existe alguma situação que precisa ser resolvida"> 🔴 Existe alguma situação que precisa ser resolvida</label>
+</div>
+
+<div class="question">
+<label class="title">Existe alguma observação importante para a próxima equipe?</label>
+<textarea id="observacao" placeholder="Escreva aqui, se necessário..."></textarea>
+</div>
+
+<div class="question">
+<label class="option">
+<input type="checkbox" id="confirmacao" required>
+☑️ Confirmo que realizei a conferência e deixei o ambiente conforme as orientações de organização do Ministério de Louvor.
+</label>
+</div>
+</div>
+
+<div id="status" class="status"></div>
+
+<div class="actions">
+<button type="reset" class="secondary">Limpar</button>
+<button type="submit" class="primary" id="enviar">Enviar checklist</button>
+</div>
+
+</div>
+</form>
+</div>
+</div>
+<div class="footer">Ministério de Louvor • Zelo • Organização • Excelência</div>
+</div>
+
+<script>
+/*
+  COLE A URL DO SEU GOOGLE APPS SCRIPT AQUI.
+  Exemplo:
+  const SCRIPT_URL = "https://script.google.com/macros/s/XXXXXXXX/exec";
+*/
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx65RnNVwChyqMKjJSYSGGq5PfWahSz5IOxaq4JUjF8zAEfUQnLW3GDo6f7wC3OIKgWYw/exec";
+
+const cultoAltar = [
+"Microfones foram desligados e guardados corretamente?",
+"Pedestais/suportes de microfone foram recolhidos e colocados no local correto?",
+"Cabos foram desconectados, enrolados corretamente e guardados?",
+"Instrumentos foram guardados nos seus respectivos locais?",
+"Instrumentos que permanecem no altar ficaram devidamente organizados?",
+"Bancos, cadeiras e demais itens utilizados foram organizados?",
+"O altar ficou livre de objetos pessoais, garrafas, papéis ou materiais desnecessários?",
+"Algum equipamento apresentou problema durante o culto?"
+];
+
+const cultoEstudio = [
+"Todos os equipamentos utilizados foram desligados?",
+"Computador, mesa de som, interfaces e demais equipamentos foram desligados corretamente?",
+"Cabos foram organizados e guardados corretamente?",
+"Fones de ouvido e acessórios foram guardados?",
+"Instrumentos foram guardados nos locais determinados?",
+"Cadeiras e demais móveis ficaram organizados?",
+"O estúdio ficou limpo e organizado para a próxima utilização?",
+"Portas, janelas e equipamentos foram conferidos antes de sair?"
+];
+
+const ensaioAltar = [
+"Microfones foram desligados e guardados corretamente?",
+"Pedestais foram recolhidos e organizados?",
+"Cabos foram desconectados, enrolados e guardados corretamente?",
+"Instrumentos utilizados no ensaio foram guardados?",
+"Partituras, cifras, folhas ou outros materiais foram recolhidos?",
+"O altar ficou organizado para o próximo culto/atividade?"
+];
+
+const ensaioEstudio = [
+"Mesa de som e demais equipamentos foram desligados corretamente?",
+"Computador/interface/monitores foram desligados?",
+"Microfones e fones foram guardados nos locais corretos?",
+"Cabos foram organizados e guardados?",
+"Instrumentos foram guardados corretamente?",
+"Cadeiras e móveis foram organizados?",
+"O estúdio ficou limpo e pronto para o próximo uso?",
+"Portas, janelas e demais itens foram conferidos antes de sair?"
+];
+
+function renderQuestions(target, items, prefix){
+ target.innerHTML = "";
+ items.forEach((q,i)=>{
+   const isProblem = q.toLowerCase().includes("apresentou problema");
+   const options = isProblem ? ["❌ Não","⚠️ Sim"] : ["✅ Sim","⚠️ Não","➖ Não se aplica"];
+
+   const div = document.createElement("div");
+   div.className = "question";
+   div.innerHTML = `<label class="title">${i+1}. ${q} *</label>` +
+     options.map(o =>
+       `<label class="option"><input type="radio" name="${prefix}_${i}" value="${o}" required> ${o}</label>`
+     ).join("");
+   target.appendChild(div);
+ });
+}
+
+document.querySelectorAll('input[name="atividade"]').forEach(r=>{
+ r.addEventListener("change",()=>{
+   const culto = r.value === "Pós-Culto";
+   document.getElementById("checkSection").classList.remove("hidden");
+
+   document.getElementById("sectionAltar").textContent =
+     culto ? "🙏 Pós-Culto | Altar" : "🎶 Pós-Ensaio | Altar";
+
+   document.getElementById("sectionEstudio").textContent =
+     culto ? "🎛️ Pós-Culto | Estúdio" : "🎧 Pós-Ensaio | Estúdio";
+
+   renderQuestions(
+     document.getElementById("altarQuestions"),
+     culto ? cultoAltar : ensaioAltar,
+     "altar"
+   );
+
+   renderQuestions(
+     document.getElementById("estudioQuestions"),
+     culto ? cultoEstudio : ensaioEstudio,
+     "estudio"
+   );
+ });
+});
+
+document.querySelectorAll('input[name="ocorrencia"]').forEach(r=>{
+ r.addEventListener("change",()=>{
+   document.getElementById("detalhes").classList.toggle("hidden",r.value !== "Sim");
+ });
+});
+
+function collectAnswers(){
+ const answers = {};
+ document.querySelectorAll('#altarQuestions input:checked').forEach(i=>{
+   answers[i.name] = i.value;
+ });
+ document.querySelectorAll('#estudioQuestions input:checked').forEach(i=>{
+   answers[i.name] = i.value;
+ });
+ return answers;
+}
+
+document.getElementById("form").addEventListener("submit", async e=>{
+ e.preventDefault();
+
+ const status = document.getElementById("status");
+ const button = document.getElementById("enviar");
+
+ if(!SCRIPT_URL || SCRIPT_URL.includes("COLE_AQUI")){
+   status.className="status error";
+   status.innerHTML="<strong>Falta configurar a conexão.</strong><br>Coloque a URL do seu Apps Script na constante <code>SCRIPT_URL</code> deste arquivo.";
+   return;
+ }
+
+ const atividade = document.querySelector('input[name="atividade"]:checked')?.value || "";
+ const ocorrencia = document.querySelector('input[name="ocorrencia"]:checked')?.value || "";
+ const situacao = document.querySelector('input[name="situacao"]:checked')?.value || "";
+
+ const payload = {
+   responsavel: document.getElementById("responsavel").value.trim(),
+   data: document.getElementById("data").value,
+   horario: document.getElementById("horario").value,
+   atividade: atividade,
+   answers: collectAnswers(),
+   ocorrencia: ocorrencia,
+   descricao_ocorrencia: document.getElementById("descricao").value.trim(),
+   equipamento: document.getElementById("equipamento").value.trim(),
+   comunicar: document.getElementById("comunicar").value,
+   situacao_final: situacao,
+   observacao: document.getElementById("observacao").value.trim(),
+   confirmacao: document.getElementById("confirmacao").checked
+ };
+
+ button.disabled = true;
+ button.textContent = "Enviando...";
+ document.body.classList.add("loading");
+
+ try{
+   await fetch(SCRIPT_URL,{
+     method:"POST",
+     mode:"no-cors",
+     headers:{"Content-Type":"text/plain;charset=utf-8"},
+     body:JSON.stringify(payload)
+   });
+
+   status.className="status success";
+   status.innerHTML="<strong>✅ Checklist enviado com sucesso!</strong><br>Os dados foram encaminhados para o Google Sheets.";
+
+   document.getElementById("form").reset();
+   document.getElementById("checkSection").classList.add("hidden");
+   document.getElementById("detalhes").classList.add("hidden");
+
+ }catch(err){
+   status.className="status error";
+   status.innerHTML="<strong>Não foi possível enviar.</strong><br>Verifique a URL do Apps Script e a implantação.";
+ }finally{
+   button.disabled=false;
+   button.textContent="Enviar checklist";
+   document.body.classList.remove("loading");
+   window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+ }
+});
+
+document.getElementById("form").addEventListener("reset",()=>{
+ setTimeout(()=>{
+   document.getElementById("checkSection").classList.add("hidden");
+   document.getElementById("detalhes").classList.add("hidden");
+   document.getElementById("status").style.display="none";
+ },0);
+});
+</script>
+</body>
+</html>
